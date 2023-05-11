@@ -25,7 +25,7 @@ variable "TF_VAR_azs" {
   default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
-variable "TF_VAR_ecr_repo" {
-  type        = string
-  description = "The ECR Repo path"
-}
+# variable "TF_VAR_ecr_repo" {
+#   type        = string
+#   description = "The ECR Repo path"
+# }

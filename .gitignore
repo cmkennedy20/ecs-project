@@ -1,1 +1,4 @@
 terraform/dev.tfvars
+terraform/.terraform/*
+terraform/.terraform*
+terraform/terraform.*

@@ -1,10 +1,13 @@
 resource "aws_ecs_task_definition" "test-task" {
-  family = "service"
-requires_compatibilities = ["FARGATE"]
+  family                   = "service"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 512
+  memory                   = 1024
   container_definitions = jsonencode([
     {
       name      = "first"
-      image     = "service-first"
+      image     = "docker/getting-started"
       cpu       = 10
       memory    = 512
       essential = true
@@ -18,17 +21,17 @@ requires_compatibilities = ["FARGATE"]
   ])
 }
 
-resource "aws_ecs_service" "test-service" {
-  name                = "bar"
-  cluster             = aws_ecs_cluster.test-cluster.id
-  task_definition     = aws_ecs_task_definition.test-task.arn
-  scheduling_strategy = "DAEMON"
-}
-
 resource "aws_ecs_cluster" "test-cluster" {
   name = "test-cluster"
   setting {
     name  = "containerInsights"
     value = "enabled"
   }
+}
+
+output "ecs-cluster-arn" {
+  value = aws_ecs_cluster.test-cluster.arn
+}
+output "ecs-task-arn" {
+  value = aws_ecs_task_definition.test-task.arn
 }
