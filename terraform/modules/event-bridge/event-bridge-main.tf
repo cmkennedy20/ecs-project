@@ -9,22 +9,6 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-data "aws_iam_policy_document" "assume_role" {
-  statement {
-    effect = "Allow"
-    principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
-    }
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "ebs_event" {
-  name               = "ebs_event"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
-
 resource "aws_iam_role" "ecs_events" {
   name               = "ecs_events"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
