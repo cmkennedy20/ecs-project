@@ -8,9 +8,11 @@ resource "aws_ecs_task_definition" "test-task" {
     {
       name      = "first"
       image     = "docker/getting-started"
+      launch_type = ["FARGATE"]
       cpu       = 10
       memory    = 512
       essential = true
+
       portMappings = [
         {
           containerPort = 80
@@ -27,6 +29,17 @@ resource "aws_ecs_cluster" "test-cluster" {
     name  = "containerInsights"
     value = "enabled"
   }
+  configuration {
+    execute_command_configuration {
+      logging    = "OVERRIDE"
+      log_configuration {
+        cloud_watch_log_group_name = aws_cloudwatch_log_group.example.name
+      }
+    }
+  }
+}
+resource "aws_cloudwatch_log_group" "example" {
+  name = "example"
 }
 
 output "ecs-cluster-arn" {
