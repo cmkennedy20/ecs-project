@@ -12,7 +12,9 @@ resource "aws_ecs_task_definition" "test-task" {
       cpu       = 10
       memory    = 512
       essential = true
-
+      network_configuration = {
+          assign_public_ip = "ENABLED"
+      }
       portMappings = [
         {
           containerPort = 80
